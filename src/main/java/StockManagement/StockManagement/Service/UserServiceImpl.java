@@ -55,7 +55,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void deleteUser(Long Id) {
-
+    public void deleteUser(Long userId) {
+        userRepo.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("Cannot find User with the ID of : " + userId));
     }
 }
