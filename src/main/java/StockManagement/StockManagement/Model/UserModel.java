@@ -29,7 +29,7 @@ public class UserModel {
     @Column(name = "Email", nullable = false)
     private String Email;
     @Column(name = "LastLogin", nullable = false)
-    private Date LastLogin;
+    private String LastLogin;
     @Column(name = "LastUpdated", nullable = false)
-    private Date LastUpdated;
+    private String LastUpdated;
 }

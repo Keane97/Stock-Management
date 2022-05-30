@@ -37,7 +37,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserModel updateUser(UserModel userModel,Long userId) {
-        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
 
 
         UserModel existingUser = userRepo.findById(userId).orElseThrow(() ->
@@ -48,7 +49,7 @@ public class UserServiceImpl implements IUserService {
         existingUser.setAddress(userModel.getAddress());
         existingUser.setMobile(userModel.getMobile());
         existingUser.setEmail(userModel.getEmail());
-        existingUser.setLastUpdated(calendar.getTime()); //potential issue (comment left at service creation stage)
+        existingUser.setLastUpdated(formatter.format(date)); //potential issue (comment left at service creation stage)
 
         userRepo.save(existingUser);
         return existingUser;
