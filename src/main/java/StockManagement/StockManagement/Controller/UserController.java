@@ -6,9 +6,7 @@ import StockManagement.StockManagement.Service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,9 +22,43 @@ public class UserController {
         this.userService = iUserService;
     }
 
+    @PostMapping(value = "/add")
+    public ResponseEntity<UserModel> addUser(@RequestBody UserModel userModel){
+
+        try {
+            return new ResponseEntity<UserModel>(userService.addUser(userModel), HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<UserModel>> getallUsers(){
         List<UserModel> userModels = (List<UserModel>) userService.getAllUsers();
         return new ResponseEntity<List<UserModel>>(userModels, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/{userId}")
+    public ResponseEntity<UserModel> getById(@PathVariable("userId") Long userId){
+
+        try {
+            return new ResponseEntity<UserModel>(userService.getUserByID(userId), HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "/edit/{userId}")
+    public ResponseEntity<UserModel> updateUser(@PathVariable("userId") Long userId, @RequestBody UserModel userModel){
+
+        try {
+            return new ResponseEntity<UserModel>(userService.updateUser(userModel,userId), HttpStatus.OK);
+        }
+        catch (IllegalArgumentException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
