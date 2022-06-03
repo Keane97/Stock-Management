@@ -49,7 +49,7 @@ public class UserServiceImpl implements IUserService {
         existingUser.setAddress(userModel.getAddress());
         existingUser.setMobile(userModel.getMobile());
         existingUser.setEmail(userModel.getEmail());
-        existingUser.setLastUpdated(formatter.format(date)); //potential issue (comment left at service creation stage)
+        existingUser.setLastUpdated(formatter.format(date)); //potential issue (comment left at service creation stage), This is saved as a string, not a date. column datatype on DB must be a string
 
         userRepo.save(existingUser);
         return existingUser;
@@ -57,7 +57,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void deleteUser(Long userId) {
-        userRepo.findById(userId).orElseThrow(() ->
-                new IllegalArgumentException("Cannot find User with the ID of : " + userId));
+        userRepo.deleteById(userId);
     }
 }
